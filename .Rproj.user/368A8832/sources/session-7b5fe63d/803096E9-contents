@@ -1,0 +1,47 @@
+---
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+
+theme_set(
+  theme_light() +
+  theme(
+    panel.grid = element_blank()
+  )
+)
+
+set.seed(482)
+x <- runif(10) * 10
+y <- x + 5 + (runif(10) * 5) 
+
+df <- bind_cols(x = x, y = y)
+```
+
+```{r}
+sliderInput(
+  "polynomial_choice",
+  sliderInput("obs", "Number of observations:",
+    min = 0, max = 1000, value = 500
+  )
+)
+```
+
+```{r}
+# Updating all the user choices
+qseqids_selected <- reactive(input$qseqid_choice)
+```
+
+```{r}
+df %>% 
+  ggplot(aes(x, y)) +
+  geom_point() +
+  geom_smooth(method = lm, formula = y ~ poly(x, 2, raw = TRUE), se = FALSE)
+```
+
+
