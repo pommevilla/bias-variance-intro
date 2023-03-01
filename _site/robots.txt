@@ -1,1 +1,0 @@
-Sitemap: https://pommevilla.github.io/bias-variance-intro/sitemap.xml
